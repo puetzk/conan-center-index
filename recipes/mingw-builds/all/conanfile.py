@@ -14,7 +14,7 @@ class MingwConan(ConanFile):
     license = "ZPL-2.1", "MIT", "GPL-2.0-or-later"
     topics = ("gcc", "gnu", "unix", "mingw32", "binutils")
     settings = "os", "arch"
-    options = {"threads": ["posix", "win32"], "exception": ["seh", "sjlj"]}
+    options = {"threads": ["posix", "win32"], "exception": ["dwarf2", "seh", "sjlj"]}
     default_options = {"threads": "posix", "exception": "seh"}
 
     provides = "mingw-w64"
@@ -27,18 +27,26 @@ class MingwConan(ConanFile):
         valid_os = ["Windows"]
         if str(self.settings.os) not in valid_os:
             raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following operating systems: {valid_os}")
-        valid_arch = ["x86_64"]
+        valid_arch = self.conan_data["sources"][self.version]
         if str(self.settings.arch) not in valid_arch:
-            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following architectures on {self.settings.os}: {valid_arch}")
+            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following architectures on {self.settings.os}: {list(valid_arch.keys())}"
+        valid_threads = valid_arch[str(self.settings.arch)]
+        if str(self.options.threads) not in valid_threads:
+            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following threads: {list(valid_threads.keys())}"
+        valid_exception = valid_threads[str(self.options.threads)]
+        if str(self.options.exception) not in valid_exception:
+            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following exception: {list(valid_exception.keys())}"
 
         if getattr(self, "settings_target", None):
             if str(self.settings_target.os) not in valid_os:
                 raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following operating systems: {valid_os}")
-            valid_arch = ["x86_64"]
-            if str(self.settings_target.arch) not in valid_arch:
-                raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following architectures on {self.settings.os}: {valid_arch}")
             if self.settings_target.compiler != "gcc":
                 raise ConanInvalidConfiguration("Only GCC is allowed as compiler.")
+            if str(self.settings_target.arch) != str(self.settings.arch):
+                raise ConanInvalidConfiguration("Build requires 'mingw' provides binaries for gcc "
+                                                f"with arch={self.settings.arch}, your profile:host declares "
+                                                f"arch={self.settings_target.arch}, please use the same value for both,"
+                                                "as mingw-builds does not supply a cross/multilib compiler.")
             if str(self.settings_target.compiler.threads) != str(self.options.threads):
                 raise ConanInvalidConfiguration("Build requires 'mingw' provides binaries for gcc "
                                                 f"with threads={self.options.threads}, your profile:host declares "
@@ -53,7 +61,7 @@ class MingwConan(ConanFile):
 
     def build(self):
         # Source should be downloaded in the build step since it depends on specific options
-        url = self.conan_data["sources"][self.version][str(self.options.threads)][str(self.options.exception)]
+        url = self.conan_data["sources"][self.version][str(self.settings.arch)][str(self.options.threads)][str(self.options.exception)]
         self.output.info(f"Downloading: {url['url']}")
         download(self, url["url"], "file.7z", sha256=url["sha256"])
         self.run("7z x file.7z")
