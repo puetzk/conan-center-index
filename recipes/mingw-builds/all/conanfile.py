@@ -26,16 +26,21 @@ class MingwConan(ConanFile):
     def validate(self):
         valid_os = ["Windows"]
         if str(self.settings.os) not in valid_os:
-            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following operating systems: {valid_os}")
+            raise ConanInvalidConfiguration(f"'{self.settings.os}' is not a valid settings.os value.\nPossible values are {valid_os}")
         valid_arch = self.conan_data["sources"][self.version]
         if str(self.settings.arch) not in valid_arch:
-            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following architectures on {self.settings.os}: {list(valid_arch.keys())}"
+            raise ConanInvalidConfiguration(f"'{self.settings.arch}' is not a supported settings.arch value for version={self.version}\n"
+                                            f"Possible values are {list(valid_arch.keys())}")
         valid_threads = valid_arch[str(self.settings.arch)]
         if str(self.options.threads) not in valid_threads:
-            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following threads: {list(valid_threads.keys())}"
+            raise ConanInvalidConfiguration(f"'{self.options.threads}' is not a supported options.threads value for version={self.version} "
+                                            f"with arch={self.settings.arch}\n"
+                                            f"Possible values are {list(valid_threads.keys())}")
         valid_exception = valid_threads[str(self.options.threads)]
         if str(self.options.exception) not in valid_exception:
-            raise ConanInvalidConfiguration(f"MinGW {self.version} is only supported for the following exception: {list(valid_exception.keys())}"
+            raise ConanInvalidConfiguration(f"'{self.options.exception}' is not a supported options.exception value for version={self.version} "
+                                            f"with arch={self.settings.arch} threads={self.options.threads}\n"
+                                            f"Possible values are {list(valid_exception.keys())}")
 
         if getattr(self, "settings_target", None):
             if str(self.settings_target.os) not in valid_os:
@@ -44,9 +49,8 @@ class MingwConan(ConanFile):
                 raise ConanInvalidConfiguration("Only GCC is allowed as compiler.")
             if str(self.settings_target.arch) != str(self.settings.arch):
                 raise ConanInvalidConfiguration("Build requires 'mingw' provides binaries for gcc "
-                                                f"with arch={self.settings.arch}, your profile:host declares "
-                                                f"arch={self.settings_target.arch}, please use the same value for both,"
-                                                "as mingw-builds does not supply a cross/multilib compiler.")
+                                                f"with arch={self.settings.arch}, your profile:host declares arch={self.settings_target.arch}, "
+                                                "please use the same value for both as mingw-builds does not supply a cross/multilib compiler.")
             if str(self.settings_target.compiler.threads) != str(self.options.threads):
                 raise ConanInvalidConfiguration("Build requires 'mingw' provides binaries for gcc "
                                                 f"with threads={self.options.threads}, your profile:host declares "
