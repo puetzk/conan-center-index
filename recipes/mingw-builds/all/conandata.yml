@@ -1,5 +1,14 @@
 sources:
   "12.2.0":
+    x86:
+      posix:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev1/i686-12.2.0-release-posix-dwarf-rt_v10-rev1.7z"
+          sha256: "225e11db75cab7fb13054736332d078ce4f79f01bec2e1a2bffb13c1615d7f11"
+      win32:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev1/i686-12.2.0-release-win32-dwarf-rt_v10-rev1.7z"
+          sha256: "71fc1b9cc47382067b49fdb4d3779404c2a9412e759c2b4c21494dedf0e258aa"
     x86_64:
       posix:
         seh:
@@ -10,6 +19,21 @@ sources:
           url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev1/x86_64-12.2.0-release-win32-seh-rt_v10-rev1.7z"
           sha256: "774916c4403c5219f8af3a3ee3012de6c017c034895c2c92bc4de99895c2c924"
   "12.1.0":
+    x86:
+      posix:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.1.0-rt_v10-rev3/i686-12.1.0-release-posix-dwarf-rt_v10-rev3.7z"
+          sha256: "955141401ca700faff9a6854d26ffbc22335e66e2bc5936c6ab08f98c897d69f"
+        sjlj:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.1.0-rt_v10-rev3/i686-12.1.0-release-posix-sjlj-rt_v10-rev3.7z"
+          sha256: "fab7f1ec29ba6b0a6e696f1253ad9c951c71f35ec3b3393375608c5f061bbf9b"
+      win32:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.1.0-rt_v10-rev3/i686-12.1.0-release-win32-dwarf-rt_v10-rev3.7z"
+          sha256: "9acbe35b70fbe05a3672bb3405dfa888589f955c74c0a786774cb941d68ee339"
+        sjlj:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.1.0-rt_v10-rev3/i686-12.1.0-release-posix-sjlj-rt_v10-rev3.7z"
+          sha256: "7137b419ba157db1421943b46f5a4caa6e78daa2db443717453248825ec09fa0"
     x86_64:
       posix:
         seh:
@@ -26,6 +50,21 @@ sources:
           url: "https://github.com/niXman/mingw-builds-binaries/releases/download/12.1.0-rt_v10-rev3/x86_64-12.1.0-release-win32-sjlj-rt_v10-rev3.7z"
           sha256: "2cd98e9fe93b3fcb1613a9dd20c6ca71acc78817bc38de12159db0552c872e82"
   "11.2.0":
+    x86:
+      posix:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/11.2.0-rt_v9-rev1/i686-11.2.0-release-posix-dwarf-rt_v9-rev1.7z"
+          sha256: "c54d5ed229bd198bb2a80acd11c0438bae4599ae085f3687a50560c6fbe11d59"
+        sjlj:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/11.2.0-rt_v9-rev1/i686-11.2.0-release-posix-sjlj-rt_v9-rev1.7z"
+          sha256: "578fe0ffce6110cbff56b4028d10d6e5fdb61e3aa2d02dc71bd4230c56096ef5"
+      win32:
+        dwarf2:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/11.2.0-rt_v9-rev1/i686-11.2.0-release-win32-dwarf-rt_v9-rev1.7z"
+          sha256: "8a03221449c9167c206bf27fd46d112ed01d488ecea9c69bd61878e229f13a14"
+        sjlj:
+          url: "https://github.com/niXman/mingw-builds-binaries/releases/download/11.2.0-rt_v9-rev1/i686-11.2.0-release-posix-sjlj-rt_v9-rev1.7z"
+          sha256: "3ee96fec8a8f5747426bb9d2768ff11fc4bd24c440b3beeb477ccfef6757d374"
     x86_64:
       posix:
         seh:
