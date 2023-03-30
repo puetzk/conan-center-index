@@ -23,6 +23,12 @@ class MingwConan(ConanFile):
     def _settings_build(self):
         return getattr(self, "settings_build", self.settings)
 
+    def config_options(self):
+        if getattr(self, "settings_target", None):
+            # default value for threads/exception options based on settings_target.compiler
+            self.options.threads = self.settings_target.get_safe("compiler.threads")
+            self.options.exception = self.settings_target.get_safe("compiler.exception")
+
     def validate(self):
         valid_os = ["Windows"]
         if str(self.settings.os) not in valid_os:
